@@ -1,0 +1,24 @@
+/*
+Program: Frontend CSS
+Author: Akinbamido Yemi Sunday
+Date: 11/June/2021
+*/
+
+.invalid-feedback{
+      color:red;font-size: 10px;
+  }
+.login-page,.register-page{
+  background: url("../images/frontendbg.jpg") #d2d6de  !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.login-logo a, .register-logo a{
+  color:#ffffff !important;
+  text-shadow: 2px 2px #888888;
+}
+
+.login-box-body , .register-box-body{
+  border-radius: 10px;
+}
