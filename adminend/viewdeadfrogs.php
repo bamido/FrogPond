@@ -3,7 +3,7 @@ include_once("header.php");
 
 $objfrog = new Frog;
 
-$frogsdata = $objfrog->getFrogs();
+$frogsdata = $objfrog->getDeadFrogs();
 //var_dump($frogsdata); //exit();
 ?>
 <!-- content start here -->
@@ -17,7 +17,7 @@ $frogsdata = $objfrog->getFrogs();
       </h1>
       <ol class="breadcrumb">
         <li><a href="dashboard.php"><i class="fa fa-dashboard"></i> Home</a></li>        
-        <li class="active">View Frogs</li>
+        <li class="active">View Dead Frogs</li>
       </ol>
     </section>
         <!-- Main content -->
@@ -134,7 +134,7 @@ $frogsdata = $objfrog->getFrogs();
 
 		                            	<a  href="editfrog.php?id=<?php echo $value['frog_id']; ?>" data-title="Edit Frog Details: <?php echo $value['frog_name']; ?>" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-link text-left" data-backdrop="static" data-keyboard="false"><i class="fa fa-edit"></i> Edit</a>
 
-		                            	<a  href="deletefrog.php?id=<?php echo $value['frog_id']; ?>" data-title="Delete Frog Details: <?php echo $value['frog_name']; ?>" data-remote="false" data-toggle="modal" data-target="#myModal" class="btn btn-link text-left" data-backdrop="static" data-keyboard="false"><i class="fa fa-trash"></i> Delete</a>
+		                            	
 		                            </td>
 	                            </tr>
 	                            <?php

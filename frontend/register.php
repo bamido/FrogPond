@@ -66,11 +66,14 @@
       $result = $regobj->register($lastname, $firstname, $emailaddress, $password);
 
       if (isset($result['success'])) {
-        // create session variables
+        // get user details and create session variables
+        $user = $regobj->getUserDetails($result['success']);
         //echo $result['success'];
-        $_SESSION['user_lastname'] = $lastname;
-        $_SESSION['user_firstname'] = $firstname;
-        $_SESSION['user_email'] = $emailaddress;
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['user_lastname'] = $user['lastname'];
+        $_SESSION['user_firstname'] = $user['firstname'];
+        $_SESSION['user_email'] = $user['emailaddress'];
+        $_SESSION['user_rolename'] = $user['role_name'];
         $_SESSION['frogy_wakanow'] = "wonakaw";
 
         header("Location: ../adminend/dashboard.php");

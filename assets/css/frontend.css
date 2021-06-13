@@ -14,11 +14,19 @@ Date: 11/June/2021
   background-position: center !important;
 }
 
-.login-logo a, .register-logo a{
+.login-logo a, .register-logo a, .home-logo a{
   color:#ffffff !important;
   text-shadow: 2px 2px #888888;
 }
 
 .login-box-body , .register-box-body{
   border-radius: 10px;
+}
+
+.home-page{
+  background: url("../images/frontendbg.jpg") #d2d6de  !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed;
 }

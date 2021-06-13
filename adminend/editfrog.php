@@ -8,6 +8,11 @@ $ponditem = $pondobj->getActivePonds();
 // create frog type object and get frog types
 $frogtypeobj = new FrogType;
 $frogtypeobjdata = $frogtypeobj->getFrogTypes();
+
+// frog details
+// create pond object
+$frogobj = new Frog;
+$frogitem = $frogobj->getFrogDetails($_REQUEST['id']);
 ?>
 
 <!-- page content -->
@@ -24,7 +29,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
                 <option value="">Choose Pond</option>
                 <?php foreach ($ponditem as $key => $value) {
                 ?>
-                  <option value="<?php echo $value['pond_id']; ?>"><?php echo $value['pond_name']; ?></option>
+                  <option value="<?php echo $value['pond_id']; ?>" <?php if($frogitem['pond_id']==$value['pond_id']){echo "selected"; } ?>><?php echo $value['pond_name']; ?></option>
                 <?php
                 } ?>
               </select>
@@ -38,7 +43,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
                 <option value="">Choose Frog Type</option>
                 <?php foreach ($frogtypeobjdata as $key => $value) {
                 ?>
-                  <option value="<?php echo $value['frogtype_id']; ?>"><?php echo $value['frogtype_name']; ?></option>
+                  <option value="<?php echo $value['frogtype_id']; ?>" <?php if($frogitem['frogtype_id']==$value['frogtype_id']){echo "selected"; } ?>><?php echo $value['frogtype_name']; ?></option>
                 <?php
                 } ?>
               </select>
@@ -52,7 +57,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
             <div class="form-group col-md-12">
               <label class="control-label" for="frogname">Frog Name <span class="required">*</span>
               </label>
-              <input type="text" id="frogname" name="frogname" required="required" class="form-control" autocomplete="off">
+              <input type="text" id="frogname" name="frogname" required="required" class="form-control" autocomplete="off" value="<?php if(isset($frogitem['frog_name'])){ echo $frogitem['frog_name']; } ?>">
              
             </div>                                              
            
@@ -63,8 +68,10 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
               <label class="control-label" for="gender">Gender <span class="required"></span>
               </label>
               <select  id="gender" name="gender" class="form-control col-md-7 col-xs-12">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>                
+                <option value="Male" <?php if ($frogitem['gender']=='Male') {
+                  echo "selected";} ?>>Male</option>
+                <option value="Female" <?php if ($frogitem['gender']=='Female') {
+                  echo "selected";} ?>>Female</option>                
               </select>
              
             </div> 
@@ -72,7 +79,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
              <div class="form-group col-md-6">
               <label class="control-label" for="frogage">Frog Age <span class="required">*</span>
               </label>
-              <input type="date" id="frogage" name="frogage" required="required" class="form-control" autocomplete="off" placeholder="dd/mm/yyyy">
+              <input type="date" id="frogage" name="frogage" required="required" class="form-control" autocomplete="off" placeholder="dd/mm/yyyy" value="<?php if(isset($frogitem['age'])){ echo $frogitem['age']; } ?>">
              
             </div>                                               
            
@@ -82,14 +89,14 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
             <div class="form-group col-md-6">
               <label class="control-label" for="color">Color <span class="required">*</span>
               </label>
-              <input type="text" id="color" name="color" required="required" class="form-control" autocomplete="off">
+              <input type="text" id="color" name="color" required="required" class="form-control" autocomplete="off" value="<?php if(isset($frogitem['color'])){ echo $frogitem['color']; } ?>">
              
             </div> 
 
              <div class="form-group col-md-6">
               <label class="control-label" for="weight">Weight <span class="required">*</span>
               </label>
-              <input type="text" id="weight" name="weight" required="required" class="form-control" autocomplete="off" onkeypress="return isNumberKey(event)">
+              <input type="text" id="weight" name="weight" required="required" class="form-control" autocomplete="off" onkeypress="return isNumberKey(event)" value="<?php if(isset($frogitem['weight'])){ echo $frogitem['weight']; } ?>">
              
             </div>                                               
            
@@ -99,7 +106,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
             <div class="form-group col-md-12">
               <label class="control-label" for="description">Frog Description <span class="required"></span>
               </label>
-              <textarea  id="description" name="description" rows="3" placeholder="" class="form-control summernote"></textarea>
+              <textarea  id="description" name="description" rows="3" placeholder="" class="form-control summernote"><?php if(isset($frogitem['description'])){ echo $frogitem['description']; } ?></textarea>
              
             </div>                                              
            
@@ -108,9 +115,15 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
 
           <div class="form-row">
             <div class="form-group col-md-6">
+              
               <label class="control-label" for="frogimage">Upload Frog Image <span class="required"></span>
+                
               </label>
               <input type="file" id="frogimage" name="frogimage" class="form-control" autocomplete="off">
+              <?php if(!empty($frogitem['frog_image'])){ ?>
+                <img src="../assets/uploads/<?php echo $frogitem['frog_image']; ?>" class="img-responsive img-thumbnail" style="width:45px; height: 45px" alt="frog image"> 
+                <?php } ?>
+              <small class="help-block">New upload will replace the existing image. Otherwise leave the field empty!</small>
              
             </div>  
 
@@ -118,8 +131,12 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
               <label class="control-label" for="status">Status <span class="required">*</span>
               </label>
               <select  id="status" name="status" required="required" class="form-control col-md-7 col-xs-12">
-                <option value="Healthy">Healthy</option>
-                <option value="Sicky">Sicky</option>                
+                <option value="Healthy" <?php if ($frogitem['status']=='Healthy') {
+                  echo "selected";
+                } ?>>Healthy</option>
+                <option value="Sicky" <?php if ($frogitem['status']=='Sicky') {
+                  echo "selected";
+                } ?>>Sicky</option>                
               </select>
              
             </div>                                              
@@ -143,6 +160,8 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
           <div class="form-group col-md-6">
             <div class="pull-right">  
               <input type="hidden" name="userid" value="<?php echo $_SESSION['user_id']; ?>">
+              <input type="hidden" name="frogid" value="<?php if(isset($frogitem['frog_id'])){ echo $frogitem['frog_id']; } ?>">
+              <input type="hidden" name="frogimage" value="<?php if(isset($frogitem['frog_image'])){ echo $frogitem['frog_image']; } ?>">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>              
 			        <button class="btn btn-primary" type="reset">Reset</button>
               <button type="submit" class="btn btn-success" id="btnsave">Submit</button>
@@ -174,7 +193,7 @@ $frogtypeobjdata = $frogtypeobj->getFrogTypes();
 
             $.ajax({
                 type: "POST",
-                url:  "savefrog.php", 
+                url:  "updatefrog.php", 
                 data: formData, 
                 processData: false,
                 contentType: false,
